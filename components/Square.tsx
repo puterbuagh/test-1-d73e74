@@ -7,6 +7,7 @@ interface SquareProps {
   piece: ChessPiece | null
   isLight: boolean
   isSelected: boolean
+  isTarget?: boolean
   onClick: () => void
   onDragStart: () => void
   onDragOver: (e: React.DragEvent) => void
@@ -17,6 +18,7 @@ export default function Square({
   piece,
   isLight,
   isSelected,
+  isTarget,
   onClick,
   onDragStart,
   onDragOver,
@@ -39,10 +41,16 @@ export default function Square({
         <div
           draggable
           onDragStart={onDragStart}
-          className="text-6xl select-none cursor-move hover:scale-110 transition-transform"
+          className="text-6xl select-none cursor-move hover:scale-110 transition-transform relative z-10"
         >
           {getPieceSymbol(piece)}
         </div>
+      )}
+      {isTarget && !piece && (
+        <div className="absolute w-6 h-6 rounded-full bg-green-600/60 pointer-events-none" />
+      )}
+      {isTarget && piece && (
+        <div className="absolute inset-0 ring-4 ring-red-500/70 ring-inset pointer-events-none" />
       )}
     </div>
   )
